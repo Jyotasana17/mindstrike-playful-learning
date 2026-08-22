@@ -11,7 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CarromRouteImport } from './routes/carrom'
+import { Route as DailyRouteImport } from './routes/daily'
+import { Route as LearningRouteImport } from './routes/learning'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as ArcadeIndexRouteImport } from './routes/arcade/index'
+import { Route as ArcadeNumberCatcherRouteImport } from './routes/arcade/number-catcher'
+import { Route as ArcadeShapeHunterRouteImport } from './routes/arcade/shape-hunter'
+import { Route as ArcadeTargetStrikeRouteImport } from './routes/arcade/target-strike'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +31,146 @@ const CarromRoute = CarromRouteImport.update({
   path: '/carrom',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DailyRoute = DailyRouteImport.update({
+  id: '/daily',
+  path: '/daily',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RewardsRoute = RewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArcadeIndexRoute = ArcadeIndexRouteImport.update({
+  id: '/arcade/',
+  path: '/arcade/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArcadeNumberCatcherRoute = ArcadeNumberCatcherRouteImport.update({
+  id: '/arcade/number-catcher',
+  path: '/arcade/number-catcher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArcadeShapeHunterRoute = ArcadeShapeHunterRouteImport.update({
+  id: '/arcade/shape-hunter',
+  path: '/arcade/shape-hunter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArcadeTargetStrikeRoute = ArcadeTargetStrikeRouteImport.update({
+  id: '/arcade/target-strike',
+  path: '/arcade/target-strike',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/carrom': typeof CarromRoute
+  '/daily': typeof DailyRoute
+  '/learning': typeof LearningRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
+  '/rewards': typeof RewardsRoute
+  '/arcade/number-catcher': typeof ArcadeNumberCatcherRoute
+  '/arcade/shape-hunter': typeof ArcadeShapeHunterRoute
+  '/arcade/target-strike': typeof ArcadeTargetStrikeRoute
+  '/arcade/': typeof ArcadeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/carrom': typeof CarromRoute
+  '/daily': typeof DailyRoute
+  '/learning': typeof LearningRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
+  '/rewards': typeof RewardsRoute
+  '/arcade/number-catcher': typeof ArcadeNumberCatcherRoute
+  '/arcade/shape-hunter': typeof ArcadeShapeHunterRoute
+  '/arcade/target-strike': typeof ArcadeTargetStrikeRoute
+  '/arcade': typeof ArcadeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/carrom': typeof CarromRoute
+  '/daily': typeof DailyRoute
+  '/learning': typeof LearningRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
+  '/rewards': typeof RewardsRoute
+  '/arcade/number-catcher': typeof ArcadeNumberCatcherRoute
+  '/arcade/shape-hunter': typeof ArcadeShapeHunterRoute
+  '/arcade/target-strike': typeof ArcadeTargetStrikeRoute
+  '/arcade/': typeof ArcadeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/carrom' | '/map'
+  fullPaths:
+    | '/'
+    | '/carrom'
+    | '/daily'
+    | '/learning'
+    | '/map'
+    | '/profile'
+    | '/rewards'
+    | '/arcade/number-catcher'
+    | '/arcade/shape-hunter'
+    | '/arcade/target-strike'
+    | '/arcade/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/carrom' | '/map'
-  id: '__root__' | '/' | '/carrom' | '/map'
+  to:
+    | '/'
+    | '/carrom'
+    | '/daily'
+    | '/learning'
+    | '/map'
+    | '/profile'
+    | '/rewards'
+    | '/arcade/number-catcher'
+    | '/arcade/shape-hunter'
+    | '/arcade/target-strike'
+    | '/arcade'
+  id:
+    | '__root__'
+    | '/'
+    | '/carrom'
+    | '/daily'
+    | '/learning'
+    | '/map'
+    | '/profile'
+    | '/rewards'
+    | '/arcade/number-catcher'
+    | '/arcade/shape-hunter'
+    | '/arcade/target-strike'
+    | '/arcade/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CarromRoute: typeof CarromRoute
+  DailyRoute: typeof DailyRoute
+  LearningRoute: typeof LearningRoute
   MapRoute: typeof MapRoute
+  ProfileRoute: typeof ProfileRoute
+  RewardsRoute: typeof RewardsRoute
+  ArcadeNumberCatcherRoute: typeof ArcadeNumberCatcherRoute
+  ArcadeShapeHunterRoute: typeof ArcadeShapeHunterRoute
+  ArcadeTargetStrikeRoute: typeof ArcadeTargetStrikeRoute
+  ArcadeIndexRoute: typeof ArcadeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +189,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarromRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/daily': {
+      id: '/daily'
+      path: '/daily'
+      fullPath: '/daily'
+      preLoaderRoute: typeof DailyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map': {
       id: '/map'
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rewards': {
+      id: '/rewards'
+      path: '/rewards'
+      fullPath: '/rewards'
+      preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/arcade/': {
+      id: '/arcade/'
+      path: '/arcade'
+      fullPath: '/arcade/'
+      preLoaderRoute: typeof ArcadeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/arcade/number-catcher': {
+      id: '/arcade/number-catcher'
+      path: '/arcade/number-catcher'
+      fullPath: '/arcade/number-catcher'
+      preLoaderRoute: typeof ArcadeNumberCatcherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/arcade/shape-hunter': {
+      id: '/arcade/shape-hunter'
+      path: '/arcade/shape-hunter'
+      fullPath: '/arcade/shape-hunter'
+      preLoaderRoute: typeof ArcadeShapeHunterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/arcade/target-strike': {
+      id: '/arcade/target-strike'
+      path: '/arcade/target-strike'
+      fullPath: '/arcade/target-strike'
+      preLoaderRoute: typeof ArcadeTargetStrikeRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,7 +258,15 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CarromRoute: CarromRoute,
+  DailyRoute: DailyRoute,
+  LearningRoute: LearningRoute,
   MapRoute: MapRoute,
+  ProfileRoute: ProfileRoute,
+  RewardsRoute: RewardsRoute,
+  ArcadeNumberCatcherRoute: ArcadeNumberCatcherRoute,
+  ArcadeShapeHunterRoute: ArcadeShapeHunterRoute,
+  ArcadeTargetStrikeRoute: ArcadeTargetStrikeRoute,
+  ArcadeIndexRoute: ArcadeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
