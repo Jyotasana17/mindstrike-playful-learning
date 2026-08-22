@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
 import { Mascot } from "@/components/Mascot";
 import { HUD, SkyBackdrop, BottomNav } from "@/components/Layout";
 import { JellyButton, Panel } from "@/components/bits";
@@ -132,6 +131,3 @@ function Home() {
     </div>
   );
 }
-
-/** Kept for future server-side leaderboards. */
-export const ping = createServerFn({ method: "GET" }).handler(async () => ({ ok: true }));
