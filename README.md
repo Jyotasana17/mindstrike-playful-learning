@@ -4,6 +4,8 @@ MINDSTRIKE — LOVABLE MASTER BUILD PROMPT
 
 Build MindStrike, a playful AI-powered educational gaming platform for children.
 
+Note: This branch includes preliminary PWA support (manifest + basic service worker) and safe-area CSS adjustments for mobile devices.
+
 Core idea
 
 MindStrike turns learning into interactive games instead of traditional quizzes.
