@@ -1,11 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { GameShell } from "@/components/Layout";
-import { JellyButton, LevelPath, FloatingScore, ResultOverlay, Countdown, StatChip } from "@/components/bits";
+import { JellyButton, LevelPath, FloatingScore, Countdown, StatChip } from "@/components/bits";
 import { usePlayer } from "@/lib/store";
 import { sfx } from "@/lib/sfx";
 
 export const Route = createFileRoute("/arcade/shape-hunter")({
+  validateSearch: z.object({ level: z.number().optional() }),
   head: () => ({
     meta: [{ title: "Shape Hunter" }],
   }),
@@ -29,42 +31,56 @@ const SHAPES = {
 };
 
 const LEVELS = [
-  { id: 1, target: "triangle", speed: 0.3, duration: 30, types: ["triangle", "circle"] as const },
-  { id: 2, target: "circle", speed: 0.5, duration: 30, types: ["triangle", "circle", "square"] as const },
-  { id: 3, target: "square", speed: 0.7, duration: 30, types: ["triangle", "circle", "square"] as const },
-  { id: 4, target: "star", speed: 0.9, duration: 30, types: ["triangle", "circle", "square", "star"] as const },
-  { id: 5, target: "triangle", speed: 1.2, duration: 25, types: ["triangle", "circle", "square", "star"] as const },
+  { id: 1, target: "triangle", speed: 0.3, duration: 30, types: ["triangle", "circle"] as const, total: 20 },
+  { id: 2, target: "circle", speed: 0.5, duration: 30, types: ["triangle", "circle", "square"] as const, total: 30 },
+  { id: 3, target: "square", speed: 0.7, duration: 30, types: ["triangle", "circle", "square"] as const, total: 40 },
+  { id: 4, target: "star", speed: 0.9, duration: 30, types: ["triangle", "circle", "square", "star"] as const, total: 50 },
+  { id: 5, target: "triangle", speed: 1.2, duration: 25, types: ["triangle", "circle", "square", "star"] as const, total: 60 },
 ];
 
 function ShapeHunter() {
+  const search = Route.useSearch();
+  const navigate = useNavigate();
   const { player, finishSession, recordTopic } = usePlayer();
-  const [level, setLevel] = useState(1);
+  
+  const [level, setLevel] = useState(search.level ?? 1);
   const [playing, setPlaying] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
+  const [bestCombo, setBestCombo] = useState(0);
+  const [correctHits, setCorrectHits] = useState(0);
+  const [wrongHits, setWrongHits] = useState(0);
+  
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [floating, setFloating] = useState<{ id: number; x: number; y: number; text: string; good: boolean }[]>([]);
-  const [result, setResult] = useState<{ stars: number; xp: number } | null>(null);
 
   const reqRef = useRef<number>();
   const lastTimeRef = useRef<number>();
   const spawnTimerRef = useRef<number>(0);
-  const stateRef = useRef({ shapes, playing, timeLeft, score, combo });
+  const stateRef = useRef({ shapes, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits });
 
-  // Sync refs
   useEffect(() => {
-    stateRef.current = { shapes, playing, timeLeft, score, combo };
-  }, [shapes, playing, timeLeft, score, combo]);
+    stateRef.current = { shapes, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits };
+  }, [shapes, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits]);
+
+  // If search param changes, update level
+  useEffect(() => {
+    if (search.level && search.level !== level) {
+      setLevel(search.level);
+    }
+  }, [search.level]);
 
   const config = LEVELS[level - 1];
 
   const startGame = () => {
-    setResult(null);
     setShapes([]);
     setScore(0);
     setCombo(0);
+    setBestCombo(0);
+    setCorrectHits(0);
+    setWrongHits(0);
     setTimeLeft(config.duration);
     setFloating([]);
     
@@ -84,8 +100,17 @@ function ShapeHunter() {
 
   const addScore = (pts: number, x: number, y: number, good: boolean) => {
     setScore(s => Math.max(0, s + pts));
-    if (good) setCombo(c => c + 1);
-    else setCombo(0);
+    if (good) {
+      setCombo(c => {
+        const nc = c + 1;
+        setBestCombo(bc => Math.max(bc, nc));
+        return nc;
+      });
+      setCorrectHits(h => h + 1);
+    } else {
+      setCombo(0);
+      setWrongHits(h => h + 1);
+    }
     
     const id = Date.now();
     setFloating(f => [...f, { id, x, y, text: pts > 0 ? `+${pts}` : `${pts}`, good }]);
@@ -101,7 +126,7 @@ function ShapeHunter() {
     if (isTarget) {
       sfx.play();
       addScore(10 + combo * 2, s.x, s.y, true);
-      recordTopic("shapes", true, 500); // rough reaction time
+      recordTopic("shapes", true, 500); 
     } else {
       sfx.oops();
       addScore(-5, s.x, s.y, false);
@@ -117,13 +142,11 @@ function ShapeHunter() {
       const dt = time - lastTimeRef.current;
       lastTimeRef.current = time;
       
-      const { shapes: currentShapes, timeLeft: currentTL } = stateRef.current;
+      const { shapes: currentShapes } = stateRef.current;
       
-      // Update shapes
       let nextShapes = currentShapes.map(s => ({ ...s, y: s.y + s.speed * dt * 0.1 }))
         .filter(s => s.y < 110 && !s.clicked);
         
-      // Spawn new shapes
       spawnTimerRef.current += dt;
       if (spawnTimerRef.current > 800 / config.speed) {
         spawnTimerRef.current = 0;
@@ -154,19 +177,43 @@ function ShapeHunter() {
       setTimeLeft(t => {
         if (t <= 1) {
           setPlaying(false);
-          const finalScore = stateRef.current.score;
+          const { score: finalScore, bestCombo, correctHits, wrongHits } = stateRef.current;
+          
+          // Calculate stars
           const stars = finalScore > 150 ? 3 : finalScore > 80 ? 2 : finalScore > 30 ? 1 : 0;
           const xp = finalScore > 0 ? Math.floor(finalScore / 2) : 0;
-          setResult({ stars, xp });
-          sfx.cheer();
+          
+          const totalHits = correctHits + wrongHits;
+          const accuracy = totalHits > 0 ? Math.round((correctHits / totalHits) * 100) : 0;
+          
           finishSession({ game: "shape-hunter", level, stars, xp });
+          
+          // Navigate to result page
+          navigate({
+            to: "/arcade/result",
+            search: {
+              game: "shape-hunter",
+              level: level,
+              score: finalScore,
+              stars: stars,
+              xp: xp,
+              accuracy: accuracy,
+              combo: bestCombo,
+              time: config.duration,
+              details: JSON.stringify({
+                "Correct Hits": correctHits,
+                "Wrong Hits": wrongHits
+              })
+            }
+          });
+          
           return 0;
         }
         return t - 1;
       });
     }, 1000);
     return () => clearInterval(iv);
-  }, [playing, level, finishSession]);
+  }, [playing, level, finishSession, navigate, config.duration]);
 
   return (
     <GameShell wide title="🔺 Shape Hunter">
@@ -175,7 +222,7 @@ function ShapeHunter() {
           levels={5} 
           progress={player.mini["shape-hunter"]} 
           current={level} 
-          onPick={l => { setLevel(l); setPlaying(false); setResult(null); }} 
+          onPick={l => { setLevel(l); setPlaying(false); }} 
         />
       </div>
 
@@ -191,7 +238,7 @@ function ShapeHunter() {
         </div>
 
         {/* Start Button */}
-        {!playing && !countdown && !result && (
+        {!playing && !countdown && (
           <div className="absolute inset-0 z-30 flex items-center justify-center bg-foreground/10 backdrop-blur-[2px]">
             <JellyButton variant="sun" size="lg" onClick={startGame}>
               ▶️ Start Level {level}
@@ -216,20 +263,6 @@ function ShapeHunter() {
             {SHAPES[s.type]}
           </button>
         ))}
-
-        {/* Result Overlay */}
-        {result && (
-          <ResultOverlay
-            title={result.stars > 0 ? "Level Complete!" : "Time's up!"}
-            message={`You scored ${score} points!`}
-            stars={result.stars}
-            xp={result.xp}
-            onReplay={startGame}
-            onNext={level < 5 && result.stars > 0 ? () => { setLevel(l => l + 1); setResult(null); } : undefined}
-            backTo="/arcade"
-            backLabel="Back to Arcade"
-          />
-        )}
       </div>
     </GameShell>
   );

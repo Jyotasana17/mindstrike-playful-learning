@@ -18,6 +18,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as ArcadeIndexRouteImport } from './routes/arcade/index'
 import { Route as ArcadeNumberCatcherRouteImport } from './routes/arcade/number-catcher'
+import { Route as ArcadeResultRouteImport } from './routes/arcade/result'
 import { Route as ArcadeShapeHunterRouteImport } from './routes/arcade/shape-hunter'
 import { Route as ArcadeTargetStrikeRouteImport } from './routes/arcade/target-strike'
 
@@ -66,6 +67,11 @@ const ArcadeNumberCatcherRoute = ArcadeNumberCatcherRouteImport.update({
   path: '/arcade/number-catcher',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArcadeResultRoute = ArcadeResultRouteImport.update({
+  id: '/arcade/result',
+  path: '/arcade/result',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArcadeShapeHunterRoute = ArcadeShapeHunterRouteImport.update({
   id: '/arcade/shape-hunter',
   path: '/arcade/shape-hunter',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/rewards': typeof RewardsRoute
   '/arcade/number-catcher': typeof ArcadeNumberCatcherRoute
+  '/arcade/result': typeof ArcadeResultRoute
   '/arcade/shape-hunter': typeof ArcadeShapeHunterRoute
   '/arcade/target-strike': typeof ArcadeTargetStrikeRoute
   '/arcade/': typeof ArcadeIndexRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/rewards': typeof RewardsRoute
   '/arcade/number-catcher': typeof ArcadeNumberCatcherRoute
+  '/arcade/result': typeof ArcadeResultRoute
   '/arcade/shape-hunter': typeof ArcadeShapeHunterRoute
   '/arcade/target-strike': typeof ArcadeTargetStrikeRoute
   '/arcade': typeof ArcadeIndexRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/rewards': typeof RewardsRoute
   '/arcade/number-catcher': typeof ArcadeNumberCatcherRoute
+  '/arcade/result': typeof ArcadeResultRoute
   '/arcade/shape-hunter': typeof ArcadeShapeHunterRoute
   '/arcade/target-strike': typeof ArcadeTargetStrikeRoute
   '/arcade/': typeof ArcadeIndexRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/rewards'
     | '/arcade/number-catcher'
+    | '/arcade/result'
     | '/arcade/shape-hunter'
     | '/arcade/target-strike'
     | '/arcade/'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/rewards'
     | '/arcade/number-catcher'
+    | '/arcade/result'
     | '/arcade/shape-hunter'
     | '/arcade/target-strike'
     | '/arcade'
@@ -154,6 +165,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/rewards'
     | '/arcade/number-catcher'
+    | '/arcade/result'
     | '/arcade/shape-hunter'
     | '/arcade/target-strike'
     | '/arcade/'
@@ -168,6 +180,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   RewardsRoute: typeof RewardsRoute
   ArcadeNumberCatcherRoute: typeof ArcadeNumberCatcherRoute
+  ArcadeResultRoute: typeof ArcadeResultRoute
   ArcadeShapeHunterRoute: typeof ArcadeShapeHunterRoute
   ArcadeTargetStrikeRoute: typeof ArcadeTargetStrikeRoute
   ArcadeIndexRoute: typeof ArcadeIndexRoute
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArcadeNumberCatcherRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/arcade/result': {
+      id: '/arcade/result'
+      path: '/arcade/result'
+      fullPath: '/arcade/result'
+      preLoaderRoute: typeof ArcadeResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/arcade/shape-hunter': {
       id: '/arcade/shape-hunter'
       path: '/arcade/shape-hunter'
@@ -264,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   RewardsRoute: RewardsRoute,
   ArcadeNumberCatcherRoute: ArcadeNumberCatcherRoute,
+  ArcadeResultRoute: ArcadeResultRoute,
   ArcadeShapeHunterRoute: ArcadeShapeHunterRoute,
   ArcadeTargetStrikeRoute: ArcadeTargetStrikeRoute,
   ArcadeIndexRoute: ArcadeIndexRoute,

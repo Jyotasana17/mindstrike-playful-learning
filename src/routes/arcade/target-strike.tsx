@@ -1,11 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { GameShell } from "@/components/Layout";
-import { JellyButton, LevelPath, FloatingScore, ResultOverlay, Countdown, StatChip } from "@/components/bits";
+import { JellyButton, LevelPath, FloatingScore, Countdown, StatChip } from "@/components/bits";
 import { usePlayer, isPrime, isComposite } from "@/lib/store";
 import { sfx } from "@/lib/sfx";
 
 export const Route = createFileRoute("/arcade/target-strike")({
+  validateSearch: z.object({ level: z.number().optional() }),
   head: () => ({
     meta: [{ title: "Target Strike" }],
   }),
@@ -40,35 +42,47 @@ const LEVELS = [
 ] as const;
 
 function TargetStrike() {
+  const search = Route.useSearch();
+  const navigate = useNavigate();
   const { player, finishSession, recordTopic } = usePlayer();
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(search.level ?? 1);
   const [playing, setPlaying] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
+  const [bestCombo, setBestCombo] = useState(0);
+  const [correctHits, setCorrectHits] = useState(0);
+  const [wrongHits, setWrongHits] = useState(0);
   
   const [targets, setTargets] = useState<TargetItem[]>([]);
   const [floating, setFloating] = useState<{ id: number; x: number; y: number; text: string; good: boolean }[]>([]);
-  const [result, setResult] = useState<{ stars: number; xp: number } | null>(null);
 
   const reqRef = useRef<number>();
   const lastTimeRef = useRef<number>();
   const spawnTimerRef = useRef<number>(0);
   
   const config = LEVELS[level - 1];
-  const cat = CATEGORIES[config.category];
+  const cat = CATEGORIES[config.category as keyof typeof CATEGORIES];
   
-  const stateRef = useRef({ targets, playing, timeLeft, score, combo });
   useEffect(() => {
-    stateRef.current = { targets, playing, timeLeft, score, combo };
-  }, [targets, playing, timeLeft, score, combo]);
+    if (search.level && search.level !== level) {
+      setLevel(search.level);
+    }
+  }, [search.level]);
+
+  const stateRef = useRef({ targets, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits });
+  useEffect(() => {
+    stateRef.current = { targets, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits };
+  }, [targets, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits]);
 
   const startGame = () => {
-    setResult(null);
     setTargets([]);
     setScore(0);
     setCombo(0);
+    setBestCombo(0);
+    setCorrectHits(0);
+    setWrongHits(0);
     setTimeLeft(config.duration);
     setFloating([]);
     
@@ -88,8 +102,17 @@ function TargetStrike() {
 
   const addScore = (pts: number, x: number, y: number, good: boolean) => {
     setScore(s => Math.max(0, s + pts));
-    if (good) setCombo(c => c + 1);
-    else setCombo(0);
+    if (good) {
+      setCombo(c => {
+        const nc = c + 1;
+        setBestCombo(bc => Math.max(bc, nc));
+        return nc;
+      });
+      setCorrectHits(h => h + 1);
+    } else {
+      setCombo(0);
+      setWrongHits(h => h + 1);
+    }
     
     const id = Date.now();
     setFloating(f => [...f, { id, x, y, text: pts > 0 ? `+${pts}` : `${pts}`, good }]);
@@ -125,7 +148,6 @@ function TargetStrike() {
         let nx = t.x + t.vx * dt * 0.05 * config.speed;
         let ny = t.y + t.vy * dt * 0.05 * config.speed;
         
-        // Bounce off walls
         let nvx = t.vx;
         let nvy = t.vy;
         if (nx < 5 || nx > 95) { nvx *= -1; nx = nx < 5 ? 5 : 95; }
@@ -138,7 +160,6 @@ function TargetStrike() {
       if (spawnTimerRef.current > config.spawnRate) {
         spawnTimerRef.current = 0;
         
-        // Ensure at least some are targets
         const forceTarget = Math.random() > 0.6;
         let val = "";
         do {
@@ -173,19 +194,41 @@ function TargetStrike() {
       setTimeLeft(t => {
         if (t <= 1) {
           setPlaying(false);
-          const finalScore = stateRef.current.score;
+          const { score: finalScore, bestCombo, correctHits, wrongHits } = stateRef.current;
+          
           const stars = finalScore > 200 ? 3 : finalScore > 100 ? 2 : finalScore > 40 ? 1 : 0;
           const xp = finalScore > 0 ? Math.floor(finalScore / 3) : 0;
-          setResult({ stars, xp });
-          sfx.cheer();
+          
+          const totalHits = correctHits + wrongHits;
+          const accuracy = totalHits > 0 ? Math.round((correctHits / totalHits) * 100) : 0;
+          
           finishSession({ game: "target-strike", level, stars, xp });
+          
+          navigate({
+            to: "/arcade/result",
+            search: {
+              game: "target-strike",
+              level: level,
+              score: finalScore,
+              stars: stars,
+              xp: xp,
+              accuracy: accuracy,
+              combo: bestCombo,
+              time: config.duration,
+              details: JSON.stringify({
+                "Correct Targets": correctHits,
+                "Wrong Targets": wrongHits
+              })
+            }
+          });
+          
           return 0;
         }
         return t - 1;
       });
     }, 1000);
     return () => clearInterval(iv);
-  }, [playing, level, finishSession]);
+  }, [playing, level, finishSession, navigate, config.duration]);
 
   return (
     <GameShell wide title="☄️ Target Strike">
@@ -194,12 +237,11 @@ function TargetStrike() {
           levels={5} 
           progress={player.mini["target-strike"]} 
           current={level} 
-          onPick={l => { setLevel(l); setPlaying(false); setResult(null); }} 
+          onPick={l => { setLevel(l); setPlaying(false); }} 
         />
       </div>
 
       <div className="toy-card relative h-[60vh] min-h-[400px] overflow-hidden bg-gradient-to-b from-sky to-mint/30 touch-none">
-        {/* HUD */}
         <div className="absolute top-4 left-4 right-4 flex justify-between z-20">
           <StatChip icon="🎯" value={cat.label} className={playing ? "ring-2 ring-primary bg-primary/10" : ""} />
           <div className="flex gap-2">
@@ -209,8 +251,7 @@ function TargetStrike() {
           </div>
         </div>
 
-        {/* Start Button */}
-        {!playing && !countdown && !result && (
+        {!playing && !countdown && (
           <div className="absolute inset-0 z-30 flex items-center justify-center bg-foreground/10 backdrop-blur-[2px]">
             <JellyButton variant="primary" size="lg" onClick={startGame}>
               ▶️ Start Level {level}
@@ -221,7 +262,6 @@ function TargetStrike() {
         {countdown !== null && <Countdown value={countdown} />}
         <FloatingScore items={floating} />
 
-        {/* Targets */}
         {targets.map(t => (
           <button
             key={t.id}
@@ -232,20 +272,6 @@ function TargetStrike() {
             {t.value}
           </button>
         ))}
-
-        {/* Result */}
-        {result && (
-          <ResultOverlay
-            title={result.stars > 0 ? "Level Complete!" : "Time's up!"}
-            message={`You scored ${score} points!`}
-            stars={result.stars}
-            xp={result.xp}
-            onReplay={startGame}
-            onNext={level < 5 && result.stars > 0 ? () => { setLevel(l => l + 1); setResult(null); } : undefined}
-            backTo="/arcade"
-            backLabel="Back to Arcade"
-          />
-        )}
       </div>
     </GameShell>
   );
