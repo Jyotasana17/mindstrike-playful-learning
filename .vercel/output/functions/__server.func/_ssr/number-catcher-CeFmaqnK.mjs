@@ -2,8 +2,8 @@ import { r as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { _ as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { _ as sfx, f as StatChip, i as GameShell, n as Countdown, o as JellyButton, r as FloatingScore, s as LevelPath, x as usePlayer } from "./Layout-DoZPIDN4.mjs";
-import { t as Route } from "./number-catcher-S1lhASfp.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/number-catcher-BBm4bfSg.js
+import { t as Route } from "./number-catcher-DwTJjC-y.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/number-catcher-CeFmaqnK.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var LEVELS = [
@@ -282,11 +282,11 @@ function NumberCatcher() {
 							accuracy,
 							combo: bestCombo,
 							time: config.duration,
-							details: {
+							details: JSON.stringify({
 								"Solved": correctEqs,
 								"Wrong Attempts": wrongEqs,
 								"Last Equation": lastEq || "None"
-							}
+							})
 						}
 					});
 					return 0;

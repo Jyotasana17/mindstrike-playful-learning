@@ -44,11 +44,11 @@ function ResultPage() {
   const [dispXp, setDispXp] = useState(0);
 
   const info = GAME_INFO[search.game];
-  const isMaxLevel = search.level >= info.maxLevel;
+  const isMaxLevel = info ? search.level >= info.maxLevel : false;
   const isWin = search.stars > 0;
 
   useEffect(() => {
-    sfx.cheer();
+    sfx.great();
     
     // Animation sequence
     const t1 = setTimeout(() => setAnimState("stars"), 800);
@@ -107,6 +107,8 @@ function ResultPage() {
       console.warn("Failed to parse details", e);
     }
   }
+
+  if (!info) return null;
 
   return (
     <GameShell wide>

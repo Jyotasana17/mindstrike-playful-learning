@@ -56,8 +56,8 @@ function ShapeHunter() {
   const [shapes, setShapes] = useState<Shape[]>([]);
   const [floating, setFloating] = useState<{ id: number; x: number; y: number; text: string; good: boolean }[]>([]);
 
-  const reqRef = useRef<number>();
-  const lastTimeRef = useRef<number>();
+  const reqRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(0);
   const spawnTimerRef = useRef<number>(0);
   const stateRef = useRef({ shapes, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits });
 
@@ -73,6 +73,7 @@ function ShapeHunter() {
   }, [search.level]);
 
   const config = LEVELS[level - 1];
+  if (!config) return null;
 
   const startGame = () => {
     setShapes([]);
@@ -124,7 +125,7 @@ function ShapeHunter() {
     
     const isTarget = s.type === config.target;
     if (isTarget) {
-      sfx.play();
+      sfx.tap();
       addScore(10 + combo * 2, s.x, s.y, true);
       recordTopic("shapes", true, 500); 
     } else {
@@ -230,7 +231,7 @@ function ShapeHunter() {
       <div className="toy-card relative h-[60vh] min-h-[400px] overflow-hidden bg-gradient-to-b from-sky to-mint/30 touch-none">
         {/* HUD */}
         <div className="absolute top-4 left-4 right-4 flex justify-between z-20">
-          <StatChip icon="🎯" value={SHAPES[config.target]} label="Target" />
+          <StatChip icon="🎯" value={SHAPES[config.target as keyof typeof SHAPES]} label="Target" />
           <div className="flex gap-2">
             <StatChip icon="🔥" value={`${combo}x`} className={combo > 3 ? "animate-pulse-glow" : ""} />
             <StatChip icon="⏱️" value={`${timeLeft}s`} />

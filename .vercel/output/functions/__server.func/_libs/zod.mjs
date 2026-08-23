@@ -3504,7 +3504,7 @@ var ZodFirstPartyTypeKind;
 	ZodFirstPartyTypeKind["ZodPipeline"] = "ZodPipeline";
 	ZodFirstPartyTypeKind["ZodReadonly"] = "ZodReadonly";
 })(ZodFirstPartyTypeKind || (ZodFirstPartyTypeKind = {}));
-ZodString.create;
+var stringType = ZodString.create;
 ZodNumber.create;
 ZodNaN.create;
 ZodBigInt.create;
@@ -3513,7 +3513,7 @@ ZodDate.create;
 ZodSymbol.create;
 ZodUndefined.create;
 ZodNull.create;
-var anyType = ZodAny.create;
+ZodAny.create;
 ZodUnknown.create;
 ZodNever.create;
 ZodVoid.create;
@@ -3524,7 +3524,7 @@ ZodUnion.create;
 ZodDiscriminatedUnion.create;
 ZodIntersection.create;
 ZodTuple.create;
-var recordType = ZodRecord.create;
+ZodRecord.create;
 ZodMap.create;
 ZodSet.create;
 ZodFunction.create;
@@ -3561,4 +3561,4 @@ var coerce = {
 	}))
 };
 //#endregion
-export { recordType as a, objectType as i, coerce as n, enumType as r, anyType as t };
+export { stringType as i, enumType as n, objectType as r, coerce as t };

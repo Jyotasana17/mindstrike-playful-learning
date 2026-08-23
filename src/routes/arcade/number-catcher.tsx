@@ -53,8 +53,8 @@ function NumberCatcher() {
 
   const [bucketX, setBucketX] = useState(50); // percentage
 
-  const reqRef = useRef<number>();
-  const lastTimeRef = useRef<number>();
+  const reqRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(0);
   const spawnTimerRef = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -70,6 +70,8 @@ function NumberCatcher() {
   useEffect(() => {
     stateRef.current = { items, playing, timeLeft, score, combo, bestCombo, correctEqs, wrongEqs, target, equation, bucketX };
   }, [items, playing, timeLeft, score, combo, bestCombo, correctEqs, wrongEqs, target, equation, bucketX]);
+
+  if (!config) return null;
 
   const generateTarget = () => {
     setTarget(Math.floor(Math.random() * (config.targetRange[1] - config.targetRange[0])) + config.targetRange[0]);

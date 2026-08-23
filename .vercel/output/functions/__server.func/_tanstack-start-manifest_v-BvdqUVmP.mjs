@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DconOBr3.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BvdqUVmP.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "C:/Users/jyota/OneDrive/Desktop/New folder/mindstrike-playful-learning/src/routes/__root.tsx",
@@ -17,19 +17,19 @@ var tsrStartManifest = () => ({ routes: {
 			"/arcade/"
 		],
 		preloads: [
-			"/assets/index-BKkIeka9.js",
+			"/assets/index-F93Ngmkm.js",
 			"/assets/link-B87asE_p.js",
-			"/assets/types-1P7c9LVw.js",
-			"/assets/carrom-BX0_ko6n.js",
-			"/assets/number-catcher-fOGZwXX1.js",
-			"/assets/result-BDzlhgS7.js",
-			"/assets/shape-hunter-BgTi3Klc.js",
-			"/assets/target-strike-DKFwxOgM.js"
+			"/assets/types-mZkFL43I.js",
+			"/assets/carrom-BFQ2-xgo.js",
+			"/assets/number-catcher-CYWL2z7O.js",
+			"/assets/result-BH37QEvo.js",
+			"/assets/shape-hunter--5-nyjOC.js",
+			"/assets/target-strike-CrMG8zuO.js"
 		],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-BKkIeka9.js"
+			src: "/assets/index-F93Ngmkm.js"
 		} }]
 	},
 	"/": {
@@ -45,7 +45,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/jyota/OneDrive/Desktop/New folder/mindstrike-playful-learning/src/routes/carrom.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/carrom-CHNwRbu-.js",
+			"/assets/carrom-ExNLXncE.js",
 			"/assets/useNavigate-DhoMvFSN.js",
 			"/assets/Layout-CepC1KmW.js",
 			"/assets/Mascot-BUCZ6CDK.js"
@@ -89,7 +89,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/jyota/OneDrive/Desktop/New folder/mindstrike-playful-learning/src/routes/arcade/number-catcher.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/number-catcher-P4sERx1v.js",
+			"/assets/number-catcher-_s9M3jjC.js",
 			"/assets/useNavigate-DhoMvFSN.js",
 			"/assets/Layout-CepC1KmW.js"
 		]
@@ -98,7 +98,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/jyota/OneDrive/Desktop/New folder/mindstrike-playful-learning/src/routes/arcade/result.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/result-DBHe7l47.js",
+			"/assets/result-DP3H8dMN.js",
 			"/assets/useNavigate-DhoMvFSN.js",
 			"/assets/Layout-CepC1KmW.js",
 			"/assets/Mascot-BUCZ6CDK.js"
@@ -108,7 +108,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/jyota/OneDrive/Desktop/New folder/mindstrike-playful-learning/src/routes/arcade/shape-hunter.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/shape-hunter-D-whKwaG.js",
+			"/assets/shape-hunter-rPCvfDrn.js",
 			"/assets/useNavigate-DhoMvFSN.js",
 			"/assets/Layout-CepC1KmW.js"
 		]
@@ -117,7 +117,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/jyota/OneDrive/Desktop/New folder/mindstrike-playful-learning/src/routes/arcade/target-strike.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/target-strike-DAvsH_9t.js",
+			"/assets/target-strike-sxwrtCJU.js",
 			"/assets/useNavigate-DhoMvFSN.js",
 			"/assets/Layout-CepC1KmW.js"
 		]

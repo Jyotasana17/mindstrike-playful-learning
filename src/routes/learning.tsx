@@ -31,11 +31,11 @@ function LearningPage() {
   const strongest = sorted[0];
   const weakest = sorted[sorted.length - 1];
   
-  const recGame = topicGame[weakest.key];
+  const recGame = weakest ? topicGame[weakest.key] : topicGame["even"];
 
   let insight = `You've been playing well! You're ready for more challenges.`;
   
-  if (player.gamesPlayed > 0) {
+  if (player.gamesPlayed > 0 && strongest && weakest) {
     if (strongest.acc > 80 && weakest.acc > 70) {
       insight = `You are incredibly consistent across all subjects! Your ${topicLabels[strongest.key]} accuracy is a stellar ${strongest.acc}%. You're ready for Advanced difficulty in Carrom.`;
     } else if (strongest.acc - weakest.acc > 20) {
@@ -75,7 +75,7 @@ function LearningPage() {
             <div className="toy-card p-6 animate-rise" style={{ animationDelay: '200ms' }}>
               <h3 className="font-display text-xl mb-3 text-coral">Recommended Action</h3>
               <p className="font-bold text-muted-foreground mb-4">
-                Based on your recent gameplay, Striko suggests playing {recGame.label} to improve your {topicLabels[weakest.key]} accuracy.
+                Based on your recent gameplay, Striko suggests playing {recGame.label} to improve your {topicLabels[weakest?.key || "even"]} accuracy.
               </p>
               <JellyButton to={recGame.to} variant="coral" className="w-full">
                 Play {recGame.label}

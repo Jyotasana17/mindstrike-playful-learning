@@ -56,7 +56,7 @@ function makeCoins(world: number): Coin[] {
   const count = Math.min(9, 4 + world);
   const picked: number[] = [];
   while (picked.length < count) {
-    const n = pool[Math.floor(Math.random() * pool.length)];
+    const n = pool[Math.floor(Math.random() * pool.length)]!;
     if (!picked.includes(n)) picked.push(n);
   }
   const cx = S / 2;
@@ -140,7 +140,7 @@ function CarromPage() {
     const seq: (string | number)[] = [3, 2, 1, "STRIKE!"];
     const idx = seq.indexOf(countdown);
     const t = setTimeout(() => {
-      if (idx < seq.length - 1) setCountdown(seq[idx + 1]);
+      if (idx < seq.length - 1) setCountdown(seq[idx + 1]!);
       else setCountdown(null);
     }, 600);
     return () => clearTimeout(t);

@@ -1,5 +1,5 @@
 import { m as createFileRoute, p as lazyRouteComponent } from "../_libs/@tanstack/react-router+[...].mjs";
-import { i as objectType, n as coerce } from "../_libs/zod.mjs";
+import { r as objectType, t as coerce } from "../_libs/zod.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/carrom-BZQtZE9K.js
 var $$splitComponentImporter = () => import("./carrom-CviPlFOe.mjs");
 var Route = createFileRoute("/carrom")({

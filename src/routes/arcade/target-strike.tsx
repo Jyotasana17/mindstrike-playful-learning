@@ -58,12 +58,12 @@ function TargetStrike() {
   const [targets, setTargets] = useState<TargetItem[]>([]);
   const [floating, setFloating] = useState<{ id: number; x: number; y: number; text: string; good: boolean }[]>([]);
 
-  const reqRef = useRef<number>();
-  const lastTimeRef = useRef<number>();
+  const reqRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(0);
   const spawnTimerRef = useRef<number>(0);
   
   const config = LEVELS[level - 1];
-  const cat = CATEGORIES[config.category as keyof typeof CATEGORIES];
+  const cat = config ? CATEGORIES[config.category as keyof typeof CATEGORIES] : CATEGORIES["even"];
   
   useEffect(() => {
     if (search.level && search.level !== level) {
@@ -75,6 +75,8 @@ function TargetStrike() {
   useEffect(() => {
     stateRef.current = { targets, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits };
   }, [targets, playing, timeLeft, score, combo, bestCombo, correctHits, wrongHits]);
+
+  if (!config) return null;
 
   const startGame = () => {
     setTargets([]);
@@ -125,7 +127,7 @@ function TargetStrike() {
     setTargets(cur => cur.map(i => i.id === t.id ? { ...i, active: false } : i));
     
     if (t.isTarget) {
-      sfx.play();
+      sfx.tap();
       addScore(15 + combo * 3, t.x, t.y, true);
       recordTopic(config.category as any, true, 800);
     } else {

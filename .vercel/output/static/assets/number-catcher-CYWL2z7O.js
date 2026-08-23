@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/number-catcher-_s9M3jjC.js","assets/link-B87asE_p.js","assets/useNavigate-DhoMvFSN.js","assets/Layout-CepC1KmW.js"])))=>i.map(i=>d[i]);
+import{a as e,o as t,r as n,s as r,t as i}from"./types-mZkFL43I.js";var a=r(`/arcade/number-catcher`)({validateSearch:n({level:i.number().optional()}),head:()=>({meta:[{title:`Number Catcher`}]}),component:t(()=>e(()=>import(`./number-catcher-_s9M3jjC.js`),__vite__mapDeps([0,1,2,3])),`component`)});export{a as t};
