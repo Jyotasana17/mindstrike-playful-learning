@@ -85,6 +85,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
+      // PWA / mobile
+      { name: "theme-color", content: "#ffffff" },
     ],
     links: [
       {
@@ -92,6 +94,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      // Web App Manifest
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      // Apple touch icon (uses favicon as fallback)
+      { rel: "apple-touch-icon", href: "/favicon.ico" },
     ],
   }),
   shellComponent: RootShell,
@@ -116,6 +122,28 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Register a simple service worker for basic PWA offline/caching behavior.
+  // Registering early on mount — if service worker is not available this is a no-op.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!('serviceWorker' in navigator)) return;
+
+    const registerSW = async () => {
+      try {
+        await navigator.serviceWorker.register('/sw.js');
+        // eslint-disable-next-line no-console
+        console.log('Service worker registered.');
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('Service worker registration failed:', err);
+      }
+    };
+
+    // Register in a timeout to avoid blocking critical rendering in dev.
+    const t = setTimeout(registerSW, 1000);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

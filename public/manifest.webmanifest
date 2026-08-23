@@ -1,0 +1,18 @@
+{
+  "name": "MindStrike",
+  "short_name": "MindStrike",
+  "description": "MindStrike — playful learning games for kids. Installable web app.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48 72x72 96x96 128x128 256x256",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["education", "games"],
+  "orientation": "portrait-primary"
+}
