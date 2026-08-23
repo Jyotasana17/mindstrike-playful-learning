@@ -3,8 +3,8 @@ import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tan
 import { _ as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { _ as sfx, d as Stars, f as StatChip, i as GameShell, o as JellyButton, x as usePlayer } from "./Layout-DoZPIDN4.mjs";
 import { n as MascotBubble } from "./Mascot-DVIeqxcP.mjs";
-import { t as Route } from "./result-CEGwA6zf.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/result-2CYbgnla.js
+import { t as Route } from "./result-DSFdigTx.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/result-C5O6DQYz.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var GAME_INFO = {
@@ -76,7 +76,7 @@ function ResultPage() {
 		if (search.accuracy > 90) insight = "🧠 Quick Insight: Your accuracy was nearly perfect! Try increasing your speed.";
 		else if (search.accuracy < 60) insight = "🧠 Quick Insight: Take your time. Accuracy is more important than speed!";
 	}
-	const detailsObj = search.details ? JSON.parse(search.details) : {};
+	const detailsObj = search.details || {};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GameShell, {
 		wide: true,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {

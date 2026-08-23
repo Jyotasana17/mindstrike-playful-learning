@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/target-strike-DAvsH_9t.js","assets/link-B87asE_p.js","assets/useNavigate-DhoMvFSN.js","assets/Layout-CepC1KmW.js"])))=>i.map(i=>d[i]);
+import{c as e,i as t,n,o as r,s as i}from"./types-1P7c9LVw.js";var a=e(`/arcade/target-strike`)({validateSearch:t({level:n.number().optional()}),head:()=>({meta:[{title:`Target Strike`}]}),component:i(()=>r(()=>import(`./target-strike-DAvsH_9t.js`),__vite__mapDeps([0,1,2,3])),`component`)});export{a as t};

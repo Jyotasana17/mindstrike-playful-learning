@@ -2,9 +2,9 @@ import { r as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { _ as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { _ as sfx, f as StatChip, g as isPrime, h as isComposite, i as GameShell, l as ResultOverlay, m as cn, n as Countdown, o as JellyButton, x as usePlayer } from "./Layout-DoZPIDN4.mjs";
-import { t as Route } from "./carrom-DQeWDKl5.mjs";
+import { t as Route } from "./carrom-BZQtZE9K.mjs";
 import { n as MascotBubble } from "./Mascot-DVIeqxcP.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/carrom-DRow0WRK.js
+//#region node_modules/.nitro/vite/services/ssr/assets/carrom-CviPlFOe.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var S = 600;

@@ -99,7 +99,14 @@ function ResultPage() {
     else if (search.accuracy < 60) insight = "🧠 Quick Insight: Take your time. Accuracy is more important than speed!";
   }
 
-  const detailsObj = search.details ? JSON.parse(search.details) : {};
+  let detailsObj: Record<string, any> = {};
+  if (search.details) {
+    try {
+      detailsObj = JSON.parse(search.details);
+    } catch (e) {
+      console.warn("Failed to parse details", e);
+    }
+  }
 
   return (
     <GameShell wide>

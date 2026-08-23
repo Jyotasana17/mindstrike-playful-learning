@@ -1,13 +1,13 @@
 import { r as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
 import { c as HeadContent, d as createRouter, f as Outlet, g as Link, h as createRootRouteWithContext, m as createFileRoute, p as lazyRouteComponent, s as Scripts, v as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
-import { t as Route$8 } from "./carrom-DQeWDKl5.mjs";
-import { t as Route$9 } from "./number-catcher-FV2sOWhK.mjs";
-import { t as Route$10 } from "./result-CEGwA6zf.mjs";
-import { t as Route$11 } from "./shape-hunter-D2afR2yZ.mjs";
-import { t as Route$12 } from "./target-strike-DhcIv7ui.mjs";
+import { t as Route$8 } from "./carrom-BZQtZE9K.mjs";
+import { t as Route$9 } from "./number-catcher-S1lhASfp.mjs";
+import { t as Route$10 } from "./result-DSFdigTx.mjs";
+import { t as Route$11 } from "./shape-hunter-DgS_1_9T.mjs";
+import { t as Route$12 } from "./target-strike-D60Jg5Hl.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-DY9apA-c.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-BHtDGQ-a.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var styles_default = "/assets/styles-DdLF8-Pz.css";

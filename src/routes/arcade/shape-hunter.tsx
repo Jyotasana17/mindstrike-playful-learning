@@ -201,8 +201,9 @@ function ShapeHunter() {
               combo: bestCombo,
               time: config.duration,
               details: JSON.stringify({
-                "Correct Hits": correctHits,
-                "Wrong Hits": wrongHits
+                "Correct Shapes": correctHits,
+                "Wrong Shapes": wrongHits,
+                "Max Combo": bestCombo
               })
             }
           });

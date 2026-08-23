@@ -3504,8 +3504,8 @@ var ZodFirstPartyTypeKind;
 	ZodFirstPartyTypeKind["ZodPipeline"] = "ZodPipeline";
 	ZodFirstPartyTypeKind["ZodReadonly"] = "ZodReadonly";
 })(ZodFirstPartyTypeKind || (ZodFirstPartyTypeKind = {}));
-var stringType = ZodString.create;
-var numberType = ZodNumber.create;
+ZodString.create;
+ZodNumber.create;
 ZodNaN.create;
 ZodBigInt.create;
 ZodBoolean.create;
@@ -3513,7 +3513,7 @@ ZodDate.create;
 ZodSymbol.create;
 ZodUndefined.create;
 ZodNull.create;
-ZodAny.create;
+var anyType = ZodAny.create;
 ZodUnknown.create;
 ZodNever.create;
 ZodVoid.create;
@@ -3524,7 +3524,7 @@ ZodUnion.create;
 ZodDiscriminatedUnion.create;
 ZodIntersection.create;
 ZodTuple.create;
-ZodRecord.create;
+var recordType = ZodRecord.create;
 ZodMap.create;
 ZodSet.create;
 ZodFunction.create;
@@ -3538,5 +3538,27 @@ ZodOptional.create;
 ZodNullable.create;
 ZodEffects.createWithPreprocess;
 ZodPipeline.create;
+var coerce = {
+	string: ((arg) => ZodString.create({
+		...arg,
+		coerce: true
+	})),
+	number: ((arg) => ZodNumber.create({
+		...arg,
+		coerce: true
+	})),
+	boolean: ((arg) => ZodBoolean.create({
+		...arg,
+		coerce: true
+	})),
+	bigint: ((arg) => ZodBigInt.create({
+		...arg,
+		coerce: true
+	})),
+	date: ((arg) => ZodDate.create({
+		...arg,
+		coerce: true
+	}))
+};
 //#endregion
-export { stringType as i, numberType as n, objectType as r, enumType as t };
+export { recordType as a, objectType as i, coerce as n, enumType as r, anyType as t };

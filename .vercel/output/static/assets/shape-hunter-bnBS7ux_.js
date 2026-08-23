@@ -1,2 +1,0 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/shape-hunter-CpZddw9r.js","assets/link-B87asE_p.js","assets/useNavigate-DhoMvFSN.js","assets/Layout-CepC1KmW.js"])))=>i.map(i=>d[i]);
-import{a as e,n as t,o as n,r,s as i}from"./types-1twbNwVA.js";var a=i(`/arcade/shape-hunter`)({validateSearch:r({level:t().optional()}),head:()=>({meta:[{title:`Shape Hunter`}]}),component:n(()=>e(()=>import(`./shape-hunter-CpZddw9r.js`),__vite__mapDeps([0,1,2,3])),`component`)});export{a as t};
