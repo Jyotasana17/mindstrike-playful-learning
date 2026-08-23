@@ -7,7 +7,7 @@ import { usePlayer, isPrime, isComposite } from "@/lib/store";
 import { sfx } from "@/lib/sfx";
 
 export const Route = createFileRoute("/arcade/target-strike")({
-  validateSearch: z.object({ level: z.number().optional() }),
+  validateSearch: z.object({ level: z.coerce.number().optional() }),
   head: () => ({
     meta: [{ title: "Target Strike" }],
   }),

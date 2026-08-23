@@ -9,7 +9,7 @@ import { sfx } from "@/lib/sfx";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/carrom")({
-  validateSearch: z.object({ world: z.number().min(1).max(5).optional() }),
+  validateSearch: z.object({ world: z.coerce.number().min(1).max(5).optional() }),
   head: () => ({
     meta: [
       { title: "Carrom Number Challenge — MindStrike" },

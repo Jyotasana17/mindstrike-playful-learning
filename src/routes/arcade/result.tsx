@@ -9,13 +9,13 @@ import { sfx } from "@/lib/sfx";
 
 const resultSearchSchema = z.object({
   game: z.enum(["shape-hunter", "number-catcher", "target-strike"] as const),
-  level: z.number().min(1),
-  score: z.number(),
-  stars: z.number(),
-  xp: z.number(),
-  accuracy: z.number().optional(),
-  combo: z.number().optional(),
-  time: z.number().optional(),
+  level: z.coerce.number().min(1),
+  score: z.coerce.number(),
+  stars: z.coerce.number(),
+  xp: z.coerce.number(),
+  accuracy: z.coerce.number().optional(),
+  combo: z.coerce.number().optional(),
+  time: z.coerce.number().optional(),
   // game specific details serialized as string
   details: z.string().optional(),
 });

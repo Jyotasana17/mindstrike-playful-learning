@@ -7,7 +7,7 @@ import { usePlayer } from "@/lib/store";
 import { sfx } from "@/lib/sfx";
 
 export const Route = createFileRoute("/arcade/shape-hunter")({
-  validateSearch: z.object({ level: z.number().optional() }),
+  validateSearch: z.object({ level: z.coerce.number().optional() }),
   head: () => ({
     meta: [{ title: "Shape Hunter" }],
   }),
